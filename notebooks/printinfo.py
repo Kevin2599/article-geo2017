@@ -18,7 +18,6 @@ import IPython
 import empymod
 import matplotlib
 from IPython.display import HTML
-from multiprocessing import cpu_count
 
 def info():
     """Print date and version information as a html-table."""
@@ -40,8 +39,8 @@ def info():
     html += "<td" + style1 + ">empymod</td>"
     html += "<td" + style2 + ">%s</td>" % platform.system()
     html += "<td" + style1 + ">OS</td>"
-    html += "<td" + style2 + ">%s</td>" % cpu_count()
-    html += "<td" + style1 + ">Threads</td>"
+    html += "<td" + style2 + ">%s</td>" % numexpr.detect_number_of_threads()
+    html += "<td" + style1 + ">CPU(s)</td>"
     html += "<td" + style2 + ">%s</td>" % IPython.__version__
     html += "<td" + style1 + ">IPython</td>"
     html += "</tr>"
@@ -61,6 +60,11 @@ def info():
     # sys.version
     html += "<tr" + style1 + ">"
     html += "<td" + style1 + " colspan='8'>%s</td>" % sys.version
+    html += "</tr>"
+
+    # vml version
+    html += "<tr" + style2 + ">"
+    html += "<td" + style2 + " colspan='8'>%s</td>" % numexpr.get_vml_version()
     html += "</tr>"
 
     # Finish table

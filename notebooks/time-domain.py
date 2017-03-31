@@ -97,5 +97,5 @@ plt.legend(ncol=2, framealpha=1, bbox_to_anchor=(.65, 0.35),
            bbox_transform=plt.gcf().transFigure)
 
 # Save and show plot
-plt.savefig('../figures/impulse2.jpg', bbox_inches='tight')
+plt.savefig('../figures/impulse.jpg', bbox_inches='tight')
 plt.show()

@@ -1,0 +1,60 @@
+Matlab run 31 March 2017
+
+*** 5 layers
+*** offsets : 1;  Layers : 5
+        16 ms :: 9pt QWE nospl
+        28 ms :: 9pt splne
+        19 ms :: 201pt nospl
+        20 ms :: 201pt splne
+        76 ms :: 801pt nospl
+        76 ms :: 801pt splne
+*** offsets : 5;  Layers : 5
+        69 ms :: 9pt QWE nospl
+        29 ms :: 9pt splne
+        92 ms :: 201pt nospl
+        24 ms :: 201pt splne
+       365 ms :: 801pt nospl
+        82 ms :: 801pt splne
+*** offsets : 21;  Layers : 5
+       300 ms :: 9pt QWE nospl
+        36 ms :: 9pt splne
+       384 ms :: 201pt nospl
+        25 ms :: 201pt splne
+      1522 ms :: 801pt nospl
+        83 ms :: 801pt splne
+*** offsets : 81;  Layers : 5
+      1154 ms :: 9pt QWE nospl
+        62 ms :: 9pt splne
+      1475 ms :: 201pt nospl
+        28 ms :: 201pt splne
+      5865 ms :: 801pt nospl
+        86 ms :: 801pt splne
+*** offsets : 321;  Layers : 5
+      4581 ms :: 9pt QWE nospl
+       165 ms :: 9pt splne
+      5867 ms :: 201pt nospl
+        41 ms :: 201pt splne
+     23165 ms :: 801pt nospl
+        99 ms :: 801pt splne
+*** 100 layers
+*** offsets : 21;  Layers : 100
+       463 ms :: 9pt QWE nospl
+        51 ms :: 9pt splne
+       604 ms :: 201pt nospl
+        37 ms :: 201pt splne
+      2402 ms :: 801pt nospl
+       127 ms :: 801pt splne
+*** offsets : 81;  Layers : 100
+      1792 ms :: 9pt QWE nospl
+        75 ms :: 9pt splne
+      2313 ms :: 201pt nospl
+        40 ms :: 201pt splne
+      9215 ms :: 801pt nospl
+       129 ms :: 801pt splne
+*** offsets : 321;  Layers : 100
+      7226 ms :: 9pt QWE nospl
+       178 ms :: 9pt splne
+      9350 ms :: 201pt nospl
+        53 ms :: 201pt splne
+     36520 ms :: 801pt nospl
+       142 ms :: 801pt splne

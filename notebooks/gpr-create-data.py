@@ -8,8 +8,12 @@ information see the article in the parent directory.*
 
 Warning!
 --------
-**SciPy 0.19.0 seems to have a memory leak in quadpack. Use another version,
-here I used 0.18.1.**
+**SciPy 0.19.0 has a memory leak in quadpack. Use another version (newer or
+older)**
+
+The problem is already fixed from the scipy-devs, and will be in the next
+bugfix-release 0.19.1. Here I used the previous version 0.18.1.
+
 """
 
 import os

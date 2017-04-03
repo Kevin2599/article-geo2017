@@ -9,6 +9,5 @@
 .ipynb_checkpoints/
 __pycache__/
 uncomitted/
-review-one/
 notebooks/data/*.npz
 notebooks/data/*.npy

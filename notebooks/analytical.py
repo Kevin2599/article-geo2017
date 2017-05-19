@@ -16,8 +16,8 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-# Load frequency-model and halfspace-code
-from empymod.model import frequency
+# Load dipole-model and halfspace-code
+from empymod.model import dipole
 from empymod.kernel import halfspace
 
 # Plotting style adjustments
@@ -47,7 +47,7 @@ params = {
     'rec': [rx.ravel(), ry.ravel(), 200],
     'depth': 0,
     'res': [1e20, 1/3],
-    'freq': 0.5,
+    'freqtime': 0.5,
     'ab': 11,
     'aniso': [1, np.sqrt(3/.3)],
     'epermH': [1, 80],
@@ -64,7 +64,7 @@ params = {
 # 1. Analytical solution
 resp = halfspace(params['rec'][0], params['rec'][1],
                  params['src'][2], params['rec'][2],
-                 params['res'][1], params['freq'],
+                 params['res'][1], params['freqtime'],
                  params['aniso'][1], params['ab'])
 resp = resp.reshape(np.shape(rx))
 
@@ -135,11 +135,11 @@ def calc_err(params, ht=None, htarg=None, loop=None, opt=None):
             cc = 30000
             params['rec'] = [rx.ravel()[i*cc:(i+1)*cc],
                              ry.ravel()[i*cc:(i+1)*cc], 200]
-            inpresp[i*cc:(i+1)*cc] = frequency(**params, ht=ht, htarg=htarg,
-                                               opt=opt)
+            inpresp[i*cc:(i+1)*cc] = dipole(**params, ht=ht, htarg=htarg,
+                                            opt=opt)
         params['rec'] = [rx.ravel(), ry.ravel(), 200]
     else:
-        inpresp = frequency(**params, ht=ht, htarg=htarg, opt=opt)
+        inpresp = dipole(**params, ht=ht, htarg=htarg, opt=opt)
 
     # Reshape and calculate log10-error for phase and amplitude
     inpresp = inpresp.reshape(np.shape(rx))

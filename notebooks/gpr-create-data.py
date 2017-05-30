@@ -35,7 +35,7 @@ zrec = 0.5                               # Receiver depth at 0.5 m
 depth = [0, 1]                           # 1 layer of 1 m thickness between two
                                          #          half-spaces
 eperm = [1, 9, 15]                       # El. permit. model
-res = [1e23, 200, 20]                    # Resistivity model: air, 1st layer,
+res = [2e14, 200, 20]                    # Resistivity model: air, 1st layer,
                                          #                    2nd layer
 f = np.arange(1, 850+1)*1e6              # Frequencies from 1e6 Hz to 850 Hz,
                                          #                  1e6 Hz sampling

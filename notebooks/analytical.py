@@ -16,14 +16,14 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-# Load dipole-model and halfspace-code
-from empymod.model import dipole
-from empymod.kernel import halfspace
+# Load dipole- and analytical routines
+from empymod import dipole, analytical
 
 # Plotting style adjustments
 mpl.rcParams['figure.dpi'] = 300
 mpl.rcParams['savefig.dpi'] = 300
-mpl.rcParams['text.usetex'] = True
+mpl.rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
+                                    # might have to adjust some strings.
 mpl.rcParams['font.serif'] = 'Computer Modern Roman'
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.style'] = 'normal'
@@ -46,7 +46,7 @@ params = {
     'src': [0, 0, 150],
     'rec': [rx.ravel(), ry.ravel(), 200],
     'depth': 0,
-    'res': [1e20, 1/3],
+    'res': [2e14, 1/3],
     'freqtime': 0.5,
     'ab': 11,
     'aniso': [1, np.sqrt(3/.3)],
@@ -62,10 +62,9 @@ params = {
 # Calculate and plot analytical solution
 
 # 1. Analytical solution
-resp = halfspace(params['rec'][0], params['rec'][1],
-                 params['src'][2], params['rec'][2],
-                 params['res'][1], params['freqtime'],
-                 params['aniso'][1], params['ab'])
+resp = analytical(params['src'], params['rec'], params['res'][1],
+                  params['freqtime'], solution='dhs', aniso=params['aniso'][1],
+                  ab=params['ab'])
 resp = resp.reshape(np.shape(rx))
 
 
@@ -115,7 +114,6 @@ cb2.set_label('Phase $(\\rm{rad})$')
 
 # Save figure and show it
 plt.savefig('../figures/analytical.jpg', bbox_inches='tight')
-plt.show()
 
 # Calculate `empymod` for different Hankel transforms
 
@@ -252,7 +250,6 @@ cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
 plt.savefig('../figures/onederror-amplitude.jpg', bbox_inches='tight')
-plt.show()
 
 
 # Plot phase error of `empymod`
@@ -313,7 +310,6 @@ cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
 plt.savefig('../figures/onederror-phase.jpg', bbox_inches='tight')
-plt.show()
 
 
 # Calculate `EMmod` results
@@ -406,4 +402,3 @@ cb2.set_label(r'Relative Error (b) \& (d) $(\%)$')
 
 # Save figure and show it
 plt.savefig('../figures/emmod-HS.jpg', bbox_inches='tight')
-plt.show()

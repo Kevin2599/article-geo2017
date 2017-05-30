@@ -15,7 +15,8 @@ from empymod import filters
 # Plotting style adjustments
 mpl.rcParams['figure.dpi'] = 300
 mpl.rcParams['savefig.dpi'] = 300
-mpl.rcParams['text.usetex'] = True
+mpl.rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
+                                    # might have to adjust some strings.
 mpl.rcParams['font.serif'] = 'Computer Modern Roman'
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.style'] = 'normal'
@@ -38,7 +39,7 @@ params = {
     'src': [0, 0, 150],
     'rec': [rx.ravel(), ry.ravel(), 200],
     'depth': 0,
-    'res': [1e20, 1/3],
+    'res': [2e14, 1/3],
     'freqtime': 0.5,
     'ab': 11,
     'aniso': [1, np.sqrt(3/.3)],
@@ -189,7 +190,6 @@ cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
 plt.savefig('../figures/filtercomp-amplitude2.jpg', bbox_inches='tight')
-plt.show()
 
 
 # Plot phase
@@ -257,4 +257,3 @@ cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
 plt.savefig('../figures/filtercomp-phase2.jpg', bbox_inches='tight')
-plt.show()

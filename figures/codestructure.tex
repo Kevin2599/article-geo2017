@@ -1,0 +1,63 @@
+% This script is a modified version of the answer by Salim Bou on:
+% https://tex.stackexchange.com/questions/328886/making-a-directory-tree-of-folders-and-files
+% Copied 30 May 2017
+\documentclass[border=10pt, multi, tikz]{standalone}
+\usepackage[edges]{forest}
+\definecolor{filebg}{RGB}{50,50,50}
+\definecolor{fileborder}{RGB}{50,50,50}
+\newlength\Size
+\setlength\Size{4pt}
+\tikzset{%
+  file/.pic={%
+    \filldraw [draw=fileborder, top color=filebg!5, bottom color=filebg!10] (-\Size,.4*\Size+5pt) coordinate (a) |- (\Size,-1.2*\Size) coordinate (b) -- ++(0,1.6*\Size) coordinate (c) -- ++(-5pt,5pt) coordinate (d) -- cycle (d) |- (c) ;
+  },
+routine/.pic={edge path={\noexpand\path [draw, \forestoption{edge}]
+          (!u.south west) +(7.5pt,0) |- (.child anchor) \forestoption{edge label};},
+            }
+}
+\forestset{%
+  declare autowrapped toks={pic me}{},
+  pic dir tree/.style={%
+    s sep = 1pt,
+    for tree={%
+      folder,
+      font=\ttfamily,
+      grow'=0,
+    },
+    before typesetting nodes={%
+      for tree={%
+        edge label+/.option={pic me},
+      },
+    },
+  },
+  pic me set/.code n args=2{%
+    \forestset{%
+      #1/.style={%
+        s sep = 1pt,
+        inner xsep=2\Size,
+        pic me={pic {#2}},
+      }
+    }
+  },
+  pic me set={file}{file},
+  pic me set={routine}{routine},
+}
+\begin{document}
+
+\begin{forest}
+  pic dir tree,
+  where level=0{}{file},
+  [empymod
+    [model
+      [bipole, routine]
+      [dipole, routine]
+      [analytical, routine]
+    ]
+    [kernel.py]
+    [transform.py]
+    [filter.py]
+    [utils.py]
+    [\_\_init\_\_.py]
+  ]
+\end{forest}
+\end{document}

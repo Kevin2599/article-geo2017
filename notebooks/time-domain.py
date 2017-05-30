@@ -14,7 +14,8 @@ from empymod import dipole
 # Style adjustments
 rcParams['figure.dpi'] = 300
 rcParams['savefig.dpi'] = 300
-rcParams['text.usetex'] = True
+mpl.rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
+                                    # might have to adjust some strings.
 rcParams['font.serif'] = 'Computer Modern Roman'
 rcParams['font.family'] = 'serif'
 rcParams['font.style'] = 'normal'
@@ -42,7 +43,7 @@ def ee_xx_impulse(res, off, time):
 # would be regarded as in the air by `emmod` otherwise.
 src = [0, 0, 0.001]          # Source at origin, slightly below interface
 rec = [6000, 0, 0.001]       # Receivers in-line, 0.5m below interface
-res = [1e23, 10]             # Resistivity: [air, half-space]
+res = [2e14, 10]             # Resistivity: [air, half-space]
 signal = 0                   # Impulse response
 t = np.logspace(-2, 2, 101)  # Desired times (s)
 inparg = {'src': src, 'rec': rec, 'depth': 0, 'freqtime': t, 'res': res,
@@ -98,4 +99,3 @@ plt.legend(ncol=2, framealpha=1, bbox_to_anchor=(.65, 0.35),
 
 # Save and show plot
 plt.savefig('../figures/impulse.jpg', bbox_inches='tight')
-plt.show()

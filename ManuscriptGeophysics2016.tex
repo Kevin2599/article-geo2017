@@ -1,7 +1,7 @@
 % \documentclass[manuscript]{geophysics}
 % \documentclass[paper,twocolumn,twoside]{geophysics}
-% \documentclass[paper]{geophysics}
-\documentclass[manuscript,revised]{geophysics}
+\documentclass[paper]{geophysics}
+% \documentclass[manuscript,revised]{geophysics}
 %%fakesection ===    PACKAGES & DEFINITIONS    ===
 
 % \usepackage{draftwatermark}
@@ -54,11 +54,11 @@
 
 \begin{document}
 
-\title{An open-source 1D electromagnetic modeler in Python: empymod}
+\title{An open-source \old{1D}\new{full 3D} electromagnetic modeler \new{for 1D VTI media} in Python: empymod}
 
 \renewcommand{\thefootnote}{1}% \fnsymbol{footnote}}
 
-\ms{GEO-2016-0626}
+\ms{GEO-2016-0626.R2}
 
 \address{Instituto Mexicano del Petróleo,
          Eje Central Lázaro Cárdenas Norte 152,
@@ -70,7 +70,7 @@
 
 \footer{}
 \lefthead{Werthmüller}
-\righthead{Open-source 1D EM modeler in Python}
+\righthead{Open-source\old{ 1D} EM modeler in Python}
 
 \maketitle
 
@@ -88,12 +88,13 @@
   quadrature-with-extrapolation, and filters) are included in empymod, which
   allows to compare these different methods in terms of speed and precision.
   The best transform in terms of speed and precision depends on the modeled
-  frequencies: available filters, for instance, are very fast and precise for
-  frequencies in the range of controlled-source electromagnetic data, but fail
-  in the frequency range of ground penetrating radar. Conventional quadrature,
-  on the other hand, is in comparison very slow but can model any frequency.
-  Examples comparing empymod with analytical solutions and with existing
-  electromagnetic modelers illustrate the capabilities of empymod.
+  frequencies: \old{available filters}\new{published digital filters for the
+  Hankel transform}, for instance, are very fast and precise for frequencies in
+  the range of controlled-source electromagnetic data, but fail in the
+  frequency range of ground penetrating radar. Conventional quadrature, on the
+  other hand, is in comparison very slow but can model any frequency.  Examples
+  comparing empymod with analytical solutions and with existing electromagnetic
+  modelers illustrate the capabilities of empymod.
 \end{abstract}
 
 \section{Introduction}
@@ -187,23 +188,29 @@ interesting use-case for empymod is therefore comparison studies of the
 different methods, up to building hybrid inversion schemes. The code is
 published under the lax permissive \emph{Apache Version 2.0 license}, which
 makes it available to everyone for free, even for commercial purposes. It
-therefore might prove to be valuable for students and professionals alike. It
-is written in Python, a modern, cross-platform, free and open-source
-programming language. With its scientific libraries, mainly the numeric and
-scientific modules \texttt{NumPy} and \texttt{SciPy}, it creates an extremely
-powerful numerical calculation stack: Even though it is an interpreted language
-it can be very fast, as \texttt{NumPy}/\texttt{SciPy} use under the hood
-routines in Fortran or in C (using for instance the BLAS/Lapack libraries) for
-the linear algebra computations, and Python is merely the glue. The comparisons
-show that empymod is as fast as the existing codes. The code is vectorized
-(avoiding loops) as much as possible, which improves computation. The most
-time-consuming calculations have furthermore a flag to run parallelized.
-However, on a larger scale such as an inversion routine one would probably want
-to parallelize the kernel calls instead of the kernel itself. The code is
-hosted on GitHub, which makes it easy for anyone to improve and contribute to
-the code: \url{https://github.com/prisae/empymod}. The documentation is hosted
-on \url{https://empymod.readthedocs.io}. \cite{TLE.17.Werthmuller} gives a
-tutorial-style introduction to EM modeling using empymod.
+\old{therefore} might \new{hence} prove to be valuable for students and
+professionals alike, \new{and it is valuable for the objectives of reproducible
+research.} It is written in Python, a modern, cross-platform, free and
+open-source programming language. With its scientific libraries, mainly the
+numeric and scientific modules \texttt{NumPy} and \texttt{SciPy}, it creates an
+extremely powerful numerical calculation stack: Even though it is an
+interpreted language it can be very fast, as \texttt{NumPy}/\texttt{SciPy} use
+under the hood routines in Fortran or in C (using for instance the BLAS/Lapack
+libraries) for the linear algebra computations, and Python is merely the glue.
+The comparisons show that empymod is as fast as the existing codes. The code is
+vectorized (avoiding loops) as much as possible, which improves computation.
+The most time-consuming calculations have furthermore a flag to run
+parallelized.  However, on a larger scale such as an inversion routine one
+would probably want to parallelize the kernel calls instead of the kernel
+itself. The code is hosted on GitHub, which makes it easy for anyone to improve
+and contribute to the code\new{.}\old{: https://github.com/prisae/empymod}
+\new{It comes with an extensive texting suite which is run automatically on
+each commit, which guarantees some robustness and helps to avoid regression
+bugs. Installation guidelines, documentation, and examples of its usage can be
+found on its website at} \url{https://empymod.github.io}.%
+\old{The documentation is hosted on https://empymod.readthedocs.io}
+\cite{TLE.17.Werthmuller} gives a tutorial-style introduction to
+\old{EM}\new{CSEM} modeling using empymod.
 
 After introducing the code in the first part I will present some comparisons by
 reproducing results from the publications this code is based upon: First some
@@ -223,7 +230,7 @@ the Hankel and Fourier transforms are computed; and (3) \emph{model}, which
 contains the actual modeling routines for end users. The main modeling routine
 is \emph{bipole}, which can calculate frequency- and time-domain responses for
 arbitrary oriented, electric or magnetic bipole sources and receivers of finite
-length.
+length \new{(see also Appendix~\ref{apd:code})}.
 
 The wavenumber-domain calculation in \emph{kernel} follows
 \cite{GEO.15.Hunziker}, and calculates as such the complete wavefield for a
@@ -240,7 +247,7 @@ $\epsilon_\mathrm{v}$. The main difference between EMmod and empymod is the
 Hankel transform, and a few additional fundamental differences: EMmod uses 2nd
 order Bessel functions of the first kind $J_2$. Published FHT filters
 generally provide coefficients for 0th and 1st order Bessel functions $J_0,
-J_1$ only. Therefore, the recurrence relation
+J_1$ only. \old{Therefore}\new{Consequently}, the recurrence relation
 %
 \begin{equation}
   J_2(kr) = \frac{2}{kr}J_1(kr) - J_0(kr)
@@ -300,19 +307,22 @@ for land impulse responses at early times.
 Calculation time can be reduced by using the splined version of the QWE and the
 splined and lagged versions of the FHT. In addition, all time-consuming
 calculations are set up to be able to run in parallel, with the help of the
-Python-module numexpr. This can significantly speed up calculations if you run
-big models with many layers and for many offsets and frequencies. However, if
-you include empymod in an inversion scheme then it might be better to
-parallelize the calls to empymod, instead of empymod itself.
+Python-module \old{numexpr}\new{\texttt{numexpr}}. This can significantly speed
+up calculations if you run big models with many layers and for many offsets and
+frequencies. However, if you include empymod in an inversion scheme then it
+might be better to parallelize the calls to empymod, instead of empymod itself.
 
 It is important to note that calculations in the wavenumber domain depend
 \emph{only} on offset $r = \sqrt{x^2+y^2}$; the scaling factor, which depends
 on the angle $\varphi = \rm{atan2}(y, x)$, is multiplied afterwards. In order
 to calculate for instance a circle around the source, the kernel has to be
-called only once, and subsequently scaled by the angle-dependent factor for
-each source-receiver pair. This makes the splined version very powerful, as it
-can be used for irregularly distributed data as long as all receiver depths are
-the same.
+called only once \new{for offset $r$}, and subsequently scaled by the
+angle-dependent factor for each source-receiver pair. This makes the splined
+version very powerful, as it can be used for irregularly distributed data%
+\old{ as long as all receiver depths are the same.}%
+\new{: you can calculate any amount of data points in the x-y-plane in one
+single kernel call. This advantage fails as soon as the receivers have
+different depths.}
 
 The run-time comparisons tests were run on a Lenovo ThinkCentre running Ubuntu
 16.04 64-bit, with 8\,GB of memory and an Intel Core i7-4770 CPU @ 3.40GHz x 8.
@@ -399,6 +409,10 @@ in this case, we cannot check the accuracy.
   not shown but looks very similar.)}
 %
 
+\new{Comparisons of empymod to other modelers using non-homogeneous models
+follow in the ground-penetrating radar example and in the section
+\emph{Comparison to Key (2009, 2012)}.}
+
 \section{Comparison to Hunziker et al. (2015)}
 
 \cite{GEO.15.Hunziker} derive the electromagnetic fields in astoundingly simple
@@ -461,12 +475,12 @@ Table~\ref{tbl:analytical} shows run times for these models. A few notes worth
 mentioning: empymod carries out a lot of input checks, as it is quite forgiving
 in what you input. EMmod, on the other hand, reads the input file and writes
 the result to an output file, and copies the first quadrant to the other three.
-Both have therefore some overhead, and the comparison is not strictly 1:1. For
-the comparison the same model was used as shown above, on a regular grid with a
-spacing of 100\,m. On the test-machine the standard QWE and FHT empymod would
-run into memory issues for denser spacing, hence arrays of more than some
-10\,000s of offsets. The splined and lagged versions of EMmod could handle it,
-however.
+Both have \old{therefore}\new{then} some overhead, and the comparison is not
+strictly 1:1. For the comparison the same model was used as shown above, on a
+regular grid with a spacing of 100\,m. On the test-machine the standard QWE and
+FHT empymod would run into memory issues for denser spacing, hence arrays of
+more than some 10\,000s of offsets. The splined and lagged versions of EMmod
+could handle it, however.
 %
 \tabl[btp]{analytical}{Run times for the half-space model shown in Figure~1, on
   a regular grid with spacing of 100\,m, for EMmod and different Hankel
@@ -500,22 +514,23 @@ range of 1\,MHz to 2048\,MHz for the Fast Fourier transform from frequency to
 time domain. Here I only calculated the FFT with 850 frequencies from 1\,MHz
 to 850\,MHz and then zero-padded up to 2048\,MHz, for EMmod and empymod; tests
 have shown that this is sufficient. Figure~\ref{fig:gpr} shows the model with
-the survey setup and the four results for EMmod, QUAD for relative and absolute
-tolerance of $10^{-12}$ and $10^{-20}$, respectively, empymod with a 21\,pt QWE
-and relative and absolute tolerance of $10^{-10}$ and $10^{-18}$, respectively,
-and empymod with FHT with the filter Key09-401, together with the analytical
-solution for the arrival of the direct wave (red), the wave refracted at the
-surface (yellow), and the wave reflected at the subsurface interface (green).
+the survey setup and the four results for EMmod, \new{empymod with }QUAD for
+relative and absolute tolerance of $10^{-12}$ and $10^{-20}$, respectively,
+empymod with a 21\,pt QWE and relative and absolute tolerance of $10^{-10}$ and
+$10^{-18}$, respectively, and empymod with FHT with the filter Key09-401,
+together with the analytical solution for the arrival of the direct wave (red),
+the wave refracted at the surface (yellow), and the wave reflected at the
+subsurface interface (green).
 
 EMmod and the QUAD and QWE transforms of empymod yield pretty much the same
 result. It is only at later times that some noise can be seen, different in
 each method. FHT shows the first arrivals well, however, afterwards the result
 becomes extremely noisy.
 %
-\plot*[btp]{gpr}{width=1\textwidth}{GPR example for (a) EMmod, (b) QUAD
+\plot*[btp]{gpr}{width=1\textwidth}{GPR example for (b) EMmod, (c) QUAD
   for relative and absolute tolerance of $10^{-12}$ and $10^{-20}$,
-  respectively, (c) empymod with 51\,pt QWE for relative and absolute tolerance
-  of $10^{-8}$ and $10^{-15}$, respectively, and (d) empymod with FHT
+  respectively, (d) empymod with 51\,pt QWE for relative and absolute tolerance
+  of $10^{-8}$ and $10^{-15}$, respectively, and (e) empymod with FHT
   (Key09-401); run times are given in the subplot titles.}
 %
 Interesting are the calculation times for these three results. EMmod took
@@ -534,13 +549,21 @@ the entire EM field. This leaves the question if it would be possible to
 create a filter that works for the frequencies and the offsets required for GPR
 calculations.
 
+\new{Note that a common-midpoint (CMP) GPR-layout was chosen with increasing
+offsets between the antennas, rather than the more common profiling layout with
+fixed antenna separation, often with shielded antennas. The reason is that a
+fixed offset calculation with shielded antennas of a 1D model would result in
+exactly the same response at each measurement point, resulting in two flat
+horizons, the direct and the reflected field. A CMP example is for this reason
+more interesting than a profiling example.}
+
 
 \section{Comparison to Key (2009, 2012)}
 
 \cite{GEO.12.Key} not only introduces QWE to geophysics, but also compares QWE
 to FHT for various filters, some of which were specifically created for the
 comparison. In order to calculate the models he translates parts of Dipole1D
-(\cite{GEO.09.Key}) from Fortran to Matlab. The models are therefore isotropic
+\citep{GEO.09.Key} from Fortran to Matlab. The models are therefore isotropic
 and use the diffusive approximation. He summarizes succinct and clear the FHT
 method, outlines the QWE method, and made the codes available from the SEG
 website.
@@ -582,7 +605,7 @@ faster.%
 %
 \tabl[btp]{runtimes}%
 {Run times comparing the codes from \cite{GEO.12.Key} (Key) and empymod (Wer)
-for the same cases as in (Key), Table~1 (in milliseconds).}{
+for the same cases as in \cite{GEO.12.Key}, Table~1 (in milliseconds).}{
   \centering
 \begin{tabularx}{1.05\textwidth}{ccYYWWYYWWYYWW}
   \toprule
@@ -646,9 +669,9 @@ more time to calculate more offsets. This is most likely due to the writing of
 the output file, that becomes bigger with bigger offsets.
 %
 \tabl[btp]{runtimes2}
-{Run times comparing Dipole1D (\cite{GEO.09.Key}) and empymod, using the filter
-Key09-201 (default in Dipole1D; times in milliseconds). Optimisation: [-] None,
-[par] parallel, [spl] lagged FHT.}{ \centering
+{Run times comparing Dipole1D \citep{GEO.09.Key} and empymod, using the filter
+Key09-201 (times in milliseconds). Optimisation: [-] None, [par] parallel,
+[spl] lagged FHT.}{ \centering
   \begin{tabularx}{.5\textwidth}{ccAAABB}
   \toprule
   %
@@ -700,7 +723,7 @@ space, and $t$ is time (neglecting the impulse of the airwave at $t=0\,$s), as
 given by \citet[][ eq. 5.38]{PhD.97.Wilson}.
 
 Figure~\ref{fig:impulse} shows the result of this comparison, where FFTLog with
-15\,ms is the fastest method and FFT with 666\,ms the slowest one. Interesting
+6\,ms is the fastest method and FFT with 562\,ms the slowest one. Interesting
 is to see how many frequencies are used internally, as listed in
 Table~\ref{tbl:time}.
 %
@@ -764,7 +787,9 @@ for students, specifically as Python is becoming more and more widespread in
 academia, and the number of Universities that teach geophysicist Python (mostly
 instead of Matlab) is growing annually. Python, like Matlab, has the advantage
 of very fast developing times, and considerably lower entry barriers than C or
-Fortran for beginners.
+Fortran for beginners. \new{And, unlike Matlab, Python is completely free and
+open-source. The module empymod is accordingly ideal for truly reproducible
+research.}
 
 There are many possibilities to improve empymod or to add additional
 functionalities, for instance more modeling routines such as loop sources.
@@ -786,6 +811,82 @@ Thorbecke, Vladimir Puzyrev, and a third, anonymous reviewer, as well as Jürg
 Hunziker and Kerry Key, whose feedback greatly improved the clarity of the
 manuscript.
 
+\append[apd:code]{Code structure and basic usage}
+
+\new{
+Figure~\ref{fig:codestructure} shows the structure of empymod.%
+}
+%
+\plot*[btp]{codestructure}{}{Code structure of the module empymod showing the
+  different files and the main modeling routines \texttt{bipole},
+  \texttt{dipole}, and \texttt{analytical}.}%
+%
+\new{
+The important routines for a user who only wants to use the code and is not
+interested in the details are located in \texttt{model.py}. The three main
+modeling routines are \texttt{bipole}, \texttt{dipole}, and
+\texttt{analytical}. With \texttt{bipole} you can calculate frequency- and
+time-domain responses for arbitrary oriented, electric or magnetic bipole
+sources and receivers of finite length. The routine \texttt{dipole} is
+basically a subset of \texttt{bipole}, and is a good starting point if you
+want to create your own modeling routine. And \texttt{analytical} is an
+interface to the analytical full- and halfspace solutions that come with
+empymod. In addition there are the routines \texttt{wavenumber} to calculate
+the wavenumber-frequency result of a dipole, and \texttt{gpr} to calculate the
+response for a ground-penetrating radar with a given center frequency. More
+modeling routines will hopefully be added in the future.
+}
+
+\new{
+The file \texttt{kernel.py} contains the wavenumber-frequency domain
+calculation as given in \cite{GEO.16.Hunziker}. It also contains analytical
+solutions, namely the complete space-frequency domain fullspace solution as
+given in \cite{GEO.16.Hunziker}, and the space-frequency and space-time domain
+diffusive halfspace solutions for electric sources and receivers as given in
+\cite{PIER.10.Slob}. All calculations related to the Hankel and Fourier
+transforms are carried out in the file \texttt{transform.py}.  Digital filters
+are collected in \texttt{filter.py}. It contains, as of now, 9 filters for the
+Hankel transform \citep{TMS.82.Anderson, GEO.12.Key, GEO.09.Key, GP.07.Kong},
+and 5 filters for the Fourier transform \citep{GEO.12.Key, GEO.09.Key}.
+}
+
+\new{
+The modeling routines rely heavily on \texttt{utils.py}. In this routine are
+the input tests and other checks, such as to get the layer number in which
+source and receivers reside, and everything related to the verbosity of the
+code.  And \texttt{\_\_init\_\_.py} is a required file, such that Python
+recognises empymod as a module that can be loaded. In the case of empymod it
+does three more things, common to Python init-files: It provides the version
+number, it loads the most important routine (\texttt{bipole}, \texttt{dipole},
+\texttt{analytical}) so they are available from the module itself, and it
+contains some documentation.
+}
+
+\new{
+As an exemplary minimal example we calculate a halfspace-model with
+air/halfspace interface at $0\,$m; electric, $x$-directed source at
+$x_s=y_s=0\,$m and $z_s=1\,$m; electric receiver at $x_r=1000\,$m, $y_r=0\,$m,
+$z_r=1\,$m, with azimuth $\theta_r=45^\circ$ and dip $\varphi_r=10^\circ$; and
+frequency of $2\,$Hz.
+}
+
+\begin{verbatim}
+>>> from empymod import bipole
+>>> em = bipole(
+>>>     src = [0, 0, 1, 0, 0],
+>>>     rec = [1000, 0, 1, 45, 10],
+>>>     depth = 0,         # interface
+>>>     res = [2e14, 100], # air, halfspace
+>>>     freqtime = 2,      # frequency
+>>>     verb = 1)          # verbosity
+>>> print('%0.4e, %0.4ei' % (em.real, em.imag))
+2.2042e-08, -7.1539e-10i
+\end{verbatim}
+
+\new{The function \texttt{bipole} takes many more input arguments, but these
+five are mandatory. You can find more extensive examples under
+\url{https://empymod.github.io} or in the Geophysical Tutorial of
+\cite{TLE.17.Werthmuller}.}
 
 % REFERENCES
 \bibliographystyle{seg}
@@ -860,19 +961,19 @@ Hamilton, A. J.~S., 2000, Uncorrelated modes of the non-linear power spectrum:
 \newblock (\href{http://dx.doi.org/10.1046/j.1365-8711.2000.03071.x}{doi:
   10.1046/j.1365-8711.2000.03071.x}).
 
-\bibitem[Hunziker et~al., 2016]{GEO.16.Hunziker}
-Hunziker, J., J. Thorbecke, J. Brackenhoff, and E. Slob, 2016, Inversion of
-  controlled-source electromagnetic reflection responses: Geophysics, {\bf 81},
-  F49--F57.
-\newblock (\href{http://dx.doi.org/10.1190/geo2015-0320.1}{doi:
-  10.1190/geo2015-0320.1}).
-
 \bibitem[Hunziker et~al., 2015]{GEO.15.Hunziker}
 Hunziker, J., J. Thorbecke, and E. Slob, 2015, The electromagnetic response in
   a layered vertical transverse isotropic medium: {A} new look at an old
   problem: Geophysics, {\bf 80}, F1--F18.
 \newblock (\href{http://dx.doi.org/10.1190/geo2013-0411.1}{doi:
   10.1190/geo2013-0411.1}).
+
+\bibitem[Hunziker et~al., 2016]{GEO.16.Hunziker}
+Hunziker, J., J. Thorbecke, J. Brackenhoff, and E. Slob, 2016, Inversion of
+  controlled-source electromagnetic reflection responses: Geophysics, {\bf 81},
+  F49--F57.
+\newblock (\href{http://dx.doi.org/10.1190/geo2015-0320.1}{doi:
+  10.1190/geo2015-0320.1}).
 
 \bibitem[Key, 2009]{GEO.09.Key}
 Key, K., 2009, {1D} inversion of multicomponent, multifrequency marine {CSEM}
@@ -922,6 +1023,12 @@ Slob, E., J. Hunziker, and W.~A. Mulder, 2010, Green's tensors for the
 Wait, J.~R., 1982, Geo-{E}lectromagnetism: Academic Press Inc.
 \newblock ({I}SBN: 978-0127308807).
 
+\bibitem[Werthmüller, 2017]{TLE.17.Werthmuller}
+Werthmüller, D., 2017, Getting started with controlled-source electromagnetic
+1D modeling: The Leading Edge, {\bf 36}, 352--355.
+\newblock (\href{http://dx.doi.org/10.1190/tle36040352.1}{doi:
+  10.1190/tle36040352.1}).
+
 \bibitem[Wilson, 1997]{PhD.97.Wilson}
 Wilson, A.~J.~S., 1997, The equivalent wavefield concept in multichannel
 transient electromagnetic surveying: Ph.D., University Of Edinburgh.
@@ -933,12 +1040,6 @@ Wynn, P., 1956, {On a device for computing the $e_m(S_n)$ tranformation}:
   Math. Comput., {\bf 10}, 91--96.
 \newblock (\href{http://dx.doi.org/10.1090/S0025-5718-1956-0084056-6}{doi:
   10.1090/S0025-5718-1956-0084056-6}).
-
-\bibitem[Werthmüller, 2017]{TLE.17.Werthmuller}
-Werthmüller, D., 2017, Getting started with controlled-source electromagnetic
-1D modeling: The Leading Edge, {\bf 36}, 352--355.
-\newblock (\href{http://dx.doi.org/10.1190/tle36040352.1}{doi:
-  10.1190/tle36040352.1}).
 
 \bibitem[Ziolkowski and Wright, 2012]{IEEE.12.Ziolkowksi}
 Ziolkowski, A., and D. Wright, 2012, The potential of the controlled source

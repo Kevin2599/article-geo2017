@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 # Style adjustments
 mpl.rcParams['figure.dpi'] = 300
 mpl.rcParams['savefig.dpi'] = 300
-mpl.rcParams['text.usetex'] = True
+mpl.rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
+                                    # might have to adjust some strings.
 mpl.rcParams['font.serif'] = 'Computer Modern Roman'
 mpl.rcParams['font.family'] = 'serif'
 mpl.rcParams['font.style'] = 'normal'
@@ -156,4 +157,3 @@ cb = plt.colorbar(cax=cax, **kw)
 
 # Save figure and show it
 plt.savefig('../figures/gpr.jpg', bbox_inches='tight')
-plt.show()

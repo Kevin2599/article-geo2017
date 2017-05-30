@@ -1,4 +1,4 @@
-# An open-source 1D electromagnetic modeler in Python: empymod
+# An open-source full 3D electromagnetic modeler for 1D VTI media in Python: empymod
 
 ## Manuscript for Geophysics paper
 
@@ -14,6 +14,9 @@ to reproduce all the figures.
 2. Revised version submitted 03/04/2017.
    The stable release of `empymod` at the time of submission was
    [Version 1.3.0](https://github.com/empymod/empymod/releases/tag/v1.3.0).
+3. Revised version submitted ??/06/2017.
+   The stable release of `empymod` at the time of submission was
+   [Version 1.?.?](https://github.com/empymod/empymod/releases/tag/v1.?.?).
 
 
 ## Note

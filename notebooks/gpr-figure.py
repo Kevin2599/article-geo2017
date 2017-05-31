@@ -50,6 +50,8 @@ axs = axs.ravel()
 
 # # 1. Plot model # #
 plt.subplot2grid((1, 6), (0, 0), colspan=2)
+ax = plt.gca()
+plt.text(0.5, 1.2, r'(a) Model', transform=ax.transAxes, horizontalalignment='center', fontsize=13)
 
 # Some settings
 arrow_prop = {'length_includes_head': True, 'zorder': 5, 'joinstyle': 'round',
@@ -122,28 +124,33 @@ def limits(i):
     plt.xlim([0, 4])
     plt.xlabel('Offset (m)')
     plt.xticks(np.arange(4))
-    ax.set_yticklabels([], ())
+    if i != 3:
+        ax.set_yticklabels([], ())
     plt.grid('off')
     return ax
 
 # Plot EMmod
-limits(0)
-plt.title(r'EMmod \\ 9\,h 30\,min')
+ax = limits(0)
+plt.text(0.5, 1.2, r'(b) EMmod', transform=ax.transAxes, horizontalalignment='center', fontsize=12)
+plt.text(0.5, 1.05, r'9\,h 30\,min', transform=ax.transAxes, horizontalalignment='center')
 plt.imshow(gprEMmod, **params)
 
 # Plot QUAD
-limits(1)
-plt.title(r'QUAD \\ 7\,h 46\,min')
+ax = limits(1)
+plt.text(0.5, 1.2, r'(c) QUAD', transform=ax.transAxes, horizontalalignment='center', fontsize=12)
+plt.text(0.5, 1.05, r'7\,h 46\,min', transform=ax.transAxes, horizontalalignment='center')
 plt.imshow(gprQUA, **params)
 
 # Plot QWE
-limits(2)
-plt.title(r'QWE \\ 4\,h 22\,min')
+ax = limits(2)
+plt.text(0.5, 1.2, r'(d) QWE', transform=ax.transAxes, horizontalalignment='center', fontsize=12)
+plt.text(0.5, 1.05, r'4\,h 22\,min', transform=ax.transAxes, horizontalalignment='center')
 plt.imshow(gprQWE, **params)
 
 # Plot FHT
 ax = limits(3)
-plt.title(r'FHT \\ $<$ 1\,min')
+plt.text(0.5, 1.2, r'(e) FHT', transform=ax.transAxes, horizontalalignment='center', fontsize=12)
+plt.text(0.5, 1.05, r'$<$ 1\,min', transform=ax.transAxes, horizontalalignment='center')
 plt.imshow(gprFHT, **params)
 plt.xticks(np.arange(5))
 ax.yaxis.set_ticks_position('right')

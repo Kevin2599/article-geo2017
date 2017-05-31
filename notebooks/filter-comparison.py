@@ -7,9 +7,8 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-# Load dipole-model and halfspace-code
-from empymod.model import dipole
-from empymod.kernel import halfspace
+# Load dipole- and analytical routines
+from empymod import dipole, analytical
 from empymod import filters
 
 # Plotting style adjustments
@@ -51,11 +50,9 @@ params = {
 
 
 # Analytical solution
-
-resp = halfspace(params['rec'][0], params['rec'][1],
-                 params['src'][2], params['rec'][2],
-                 params['res'][1], params['freqtime'],
-                 params['aniso'][1], params['ab'])
+resp = analytical(params['src'], params['rec'], params['res'][1],
+                  params['freqtime'], solution='dhs', aniso=params['aniso'][1],
+                  ab=params['ab'])
 resp = resp.reshape(np.shape(rx))
 
 

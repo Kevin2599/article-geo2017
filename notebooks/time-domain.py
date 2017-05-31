@@ -14,8 +14,8 @@ from empymod import dipole
 # Style adjustments
 rcParams['figure.dpi'] = 300
 rcParams['savefig.dpi'] = 300
-mpl.rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
-                                    # might have to adjust some strings.
+rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
+                                # might have to adjust some strings.
 rcParams['font.serif'] = 'Computer Modern Roman'
 rcParams['font.family'] = 'serif'
 rcParams['font.style'] = 'normal'

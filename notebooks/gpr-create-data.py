@@ -33,14 +33,14 @@ y = np.zeros(x.size)                     # Y-coord = 0
 zsrc = 0.0000001                         # Source depth just slightly below 0
 zrec = 0.5                               # Receiver depth at 0.5 m
 depth = [0, 1]                           # 1 layer of 1 m thickness between two
-                                         #          half-spaces
+#                                        #          half-spaces
 eperm = [1, 9, 15]                       # El. permit. model
 res = [2e14, 200, 20]                    # Resistivity model: air, 1st layer,
-                                         #                    2nd layer
+#                                        #                    2nd layer
 f = np.arange(1, 850+1)*1e6              # Frequencies from 1e6 Hz to 850 Hz,
-                                         #                  1e6 Hz sampling
+#                                        #                  1e6 Hz sampling
 t = np.arange(321)/4*1e-9                # Times from 1 ns to 80 ns,
-                                         #            4 samples per ns
+#                                        #            4 samples per ns
 cf = 250e6                               # Center frequency
 verb = 2                                 # Verbosity level
 
@@ -49,7 +49,7 @@ inp = {'src': [0, 0, zsrc], 'rec': [x, y, zrec], 'depth': depth, 'res': res,
        'cf': cf, 'ab': 11, 'gain': 3, 'epermH': eperm, 'epermV': eperm, 'loop':
        'off', 'verb': verb, 'freqtime': t, 'opt': 'spline', 'ft': 'fft',
        'ftarg': [f[0], f.size, 2048]}
-       # FFT: we are padding with zerose to 2048 samples
+#      # FFT: we are padding with zerose to 2048 samples
 
 
 # Calculate GPR with `empymod` for FHT, QWE, and QUAD and store it in

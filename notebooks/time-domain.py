@@ -6,19 +6,30 @@ impulse responses for inline, x-directed source and receivers, for the four
 different frequency-to-time methods **QWE**, **FHT**, **FFTLog**, and **FFT**.
 """
 import numpy as np
-from matplotlib import rcParams
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 from empymod import dipole
 
-# Style adjustments
-rcParams['figure.dpi'] = 300
-rcParams['savefig.dpi'] = 300
-rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
-                                # might have to adjust some strings.
-rcParams['font.serif'] = 'Computer Modern Roman'
-rcParams['font.family'] = 'serif'
-rcParams['font.style'] = 'normal'
+# Plotting style adjustments
+mpl.rc('text', usetex=True)         # Comment this if you don't have LaTeX. You
+font = {'family': 'sans-serif',    # might have to adjust some strings.
+        'size': 8,
+        'style': 'normal',
+        'sans-serif': 'Helvetica'}
+mpl.rc('font', **font)
+mpl.rc('lines', linewidth=1)
+mpl.rc('xtick', labelsize=8)
+mpl.rc('ytick', labelsize=8)
+mpl.rc('axes', labelsize=8, titlesize=8)
+mpl.rc('legend', fontsize=8)
+mpl.rc('figure', dpi=1200)
+
+# Notes on tif
+# Matplotlib uses Pillow to save as tif; compression is not yet implemented,
+# but in the works. I save it here as tif, and compress it afterwards in Gimp
+# for the versions submitted to Geophysics.
+
 
 def ee_xx_impulse(res, off, time):
     """Electric halfspace impulse response to an electric source, xx, inline.
@@ -53,22 +64,22 @@ inparg = {'src': src, 'rec': rec, 'depth': 0, 'freqtime': t, 'res': res,
 ex = ee_xx_impulse(res[1], rec[0], t)
 
 # Calculation
-inparg['signal'] = 0 # signal 0 = impulse
+inparg['signal'] = 0  # signal 0 = impulse
 qwe = dipole(**inparg, ft='qwe')
 sin = dipole(**inparg, ft='sin', ftarg='key_81_CosSin_2009')
 ftl = dipole(**inparg, ft='fftlog')
 fft = dipole(**inparg, ft='fft', ftarg=[.00005, 2**20, '', 10])
 
 # Figure
-fig, axs = plt.subplots(figsize=(9, 3.25), facecolor = 'w', nrows=1,
+fig, axs = plt.subplots(figsize=(7.2, 2.5), facecolor='w', nrows=1,
                         ncols=2, sharey=True)
 fig.subplots_adjust(wspace=.05)
-plt.suptitle('Impulse response for a half-space of 10$\,\Omega$\,m at ' +
-             '6\,km offset.', y=1.05, fontsize=14)
+# plt.suptitle('Impulse response for a half-space of 10$\,\Omega$\,m at ' +
+#              '6\,km offset.', y=1.05, fontsize=8)
 
 # Amplitude
 plt.sca(axs[0])
-plt.title(r'Amplitude')
+plt.title(r'(a) Amplitude')
 plt.xlabel('Time (s)')
 plt.ylabel(r'Amplitude (V/(s\,m))')
 plt.loglog(t, ex, 'k.', label='Analytical')
@@ -81,7 +92,7 @@ plt.xlim([t.min(), t.max()-1])  # Only to 99 to hide 10^2-label
 
 # Error
 plt.sca(axs[1])
-plt.title('Error')
+plt.title('(b) Error')
 plt.xlabel('Time (s)')
 plt.ylabel('Absolute error (V/(s\,m))')
 plt.loglog(t, abs(fft-ex), '0.0', ls=':', lw=1, label='562\,ms: FFT')
@@ -98,4 +109,6 @@ plt.legend(ncol=2, framealpha=1, bbox_to_anchor=(.65, 0.35),
            bbox_transform=plt.gcf().transFigure)
 
 # Save and show plot
-plt.savefig('../figures/impulse.jpg', bbox_inches='tight')
+plt.savefig('../figures/Figure_7.tif', bbox_inches='tight')
+# plt.savefig('../figures/Figure_7.jpg', bbox_inches='tight')
+plt.close()

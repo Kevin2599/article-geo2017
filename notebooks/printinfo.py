@@ -19,6 +19,7 @@ import empymod
 import matplotlib
 from IPython.display import HTML
 
+
 def info():
     """Print date and version information as a html-table."""
 

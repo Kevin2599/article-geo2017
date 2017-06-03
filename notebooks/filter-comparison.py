@@ -12,13 +12,24 @@ from empymod import dipole, analytical
 from empymod import filters
 
 # Plotting style adjustments
-mpl.rcParams['figure.dpi'] = 300
-mpl.rcParams['savefig.dpi'] = 300
-mpl.rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
-                                    # might have to adjust some strings.
-mpl.rcParams['font.serif'] = 'Computer Modern Roman'
-mpl.rcParams['font.family'] = 'serif'
-mpl.rcParams['font.style'] = 'normal'
+mpl.rc('text', usetex=True)         # Comment this if you don't have LaTeX. You
+font = {'family': 'sans-serif',    # might have to adjust some strings.
+        'size': 8,
+        'style': 'normal',
+        'sans-serif': 'Helvetica'}
+mpl.rc('font', **font)
+mpl.rc('lines', linewidth=1)
+mpl.rc('xtick', labelsize=8)
+mpl.rc('ytick', labelsize=8)
+mpl.rc('axes', labelsize=8, titlesize=8)
+mpl.rc('legend', fontsize=8)
+mpl.rc('figure', dpi=300)
+
+# Notes on tif
+# Matplotlib uses Pillow to save as tif; compression is not yet implemented,
+# but in the works. I save it here as tif, and compress it afterwards in Gimp
+# for the versions submitted to Geophysics.
+
 
 # Set axis and limits
 def limits(i):
@@ -32,7 +43,7 @@ def limits(i):
 
 # Define coordinates
 x = (np.arange(1051))*10-500
-rx = np.repeat([x,],np.size(x),axis=0)
+rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
 params = {
     'src': [0, 0, 150],
@@ -124,7 +135,7 @@ else:
 
 
 # Plot amplitude
-fig, axs = plt.subplots(figsize=(10, 12), facecolor = 'w', nrows=3, ncols=3,
+fig, axs = plt.subplots(figsize=(8.1, 9.6), facecolor='w', nrows=3, ncols=3,
                         sharex=True, sharey=True)
 axs = axs.ravel()
 
@@ -135,45 +146,45 @@ props = {'levels': np.logspace(np.log10(vmin), np.log10(vmax), 50),
          'locator': mpl.ticker.LogLocator(), 'cmap': 'Greys'}
 
 limits(0)
-plt.title(r'Kong07-61')
+plt.title(r'(a) Kong07-61')
 cf1 = plt.contourf(rx/1000, ry/1000, fht1amp.clip(vmin, vmax), **props)
 plt.ylabel('Crossline offset (km)')
 
 limits(1)
-plt.title(r'Kong07-241')
+plt.title(r'(b) Kong07-241')
 cf2 = plt.contourf(rx/1000, ry/1000, fht2amp.clip(vmin, vmax), **props)
 
 limits(3)
-plt.title(r'Key09-101')
+plt.title(r'(d) Key09-101')
 cf3 = plt.contourf(rx/1000, ry/1000, fht3amp.clip(vmin, vmax), **props)
 plt.ylabel('Crossline offset (km)')
 
 limits(4)
-plt.title(r'Key09-201')
+plt.title(r'(e) Key09-201')
 cf4 = plt.contourf(rx/1000, ry/1000, fht4amp.clip(vmin, vmax), **props)
 
 limits(5)
-plt.title(r'Key09-401')
+plt.title(r'(f) Key09-401')
 cf5 = plt.contourf(rx/1000, ry/1000, fht5amp.clip(vmin, vmax), **props)
 
 limits(2)
-plt.title(r'Anderson82-801')
+plt.title(r'(c) Anderson82-801')
 cf6 = plt.contourf(rx/1000, ry/1000, fht6amp.clip(vmin, vmax), **props)
 
 limits(6)
-plt.title(r'Key12-51')
+plt.title(r'(g) Key12-51')
 cf7 = plt.contourf(rx/1000, ry/1000, fht7amp.clip(vmin, vmax), **props)
 plt.xlabel('Inline offset (km)')
 plt.ylabel('Crossline offset (km)')
 plt.xticks(np.arange(6)*2)
 
 limits(7)
-plt.title(r'Key12-101')
+plt.title(r'(h) Key12-101')
 cf8 = plt.contourf(rx/1000, ry/1000, fht8amp.clip(vmin, vmax), **props)
 plt.xlabel('Inline offset (km)')
 
 limits(8)
-plt.title(r'Key12-201')
+plt.title(r'(i) Key12-201')
 cf9 = plt.contourf(rx/1000, ry/1000, fht9amp.clip(vmin, vmax), **props)
 plt.xlabel('Inline offset (km)')
 
@@ -186,12 +197,14 @@ cb = plt.colorbar(cf8, cax=cax, ticks=10**(-(np.arange(11.)[::-1])+2), **kw)
 cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
-plt.savefig('../figures/filtercomp-amplitude2.jpg', bbox_inches='tight')
+# plt.savefig('../figures/Figure_4.tif', bbox_inches='tight')
+plt.savefig('../figures/Figure_4.jpg', bbox_inches='tight')
+plt.close()
 
 
 # Plot phase
 
-fig, axs = plt.subplots(figsize=(10, 12), facecolor = 'w', nrows=3, ncols=3,
+fig, axs = plt.subplots(figsize=(8.1, 9.6), facecolor='w', nrows=3, ncols=3,
                         sharex=True, sharey=True)
 axs = axs.ravel()
 
@@ -202,45 +215,45 @@ props = {'levels': np.logspace(np.log10(vmin), np.log10(vmax), 50),
          'locator': mpl.ticker.LogLocator(), 'cmap': 'Greys'}
 
 limits(0)
-plt.title(r'Kong07-61')
+plt.title(r'(a) Kong07-61')
 cf1 = plt.contourf(rx/1000, ry/1000, fht1pha.clip(vmin, vmax), **props)
 plt.ylabel('Crossline offset (km)')
 
 limits(1)
-plt.title(r'Kong07-241')
+plt.title(r'(b) Kong07-241')
 cf2 = plt.contourf(rx/1000, ry/1000, fht2pha.clip(vmin, vmax), **props)
 
 limits(3)
-plt.title(r'Key09-101')
+plt.title(r'(d) Key09-101')
 cf3 = plt.contourf(rx/1000, ry/1000, fht3pha.clip(vmin, vmax), **props)
 plt.ylabel('Crossline offset (km)')
 
 limits(4)
-plt.title(r'Key09-201')
+plt.title(r'(e) Key09-201')
 cf4 = plt.contourf(rx/1000, ry/1000, fht4pha.clip(vmin, vmax), **props)
 
 limits(5)
-plt.title(r'Key09-401')
+plt.title(r'(f) Key09-401')
 cf5 = plt.contourf(rx/1000, ry/1000, fht5pha.clip(vmin, vmax), **props)
 
 limits(2)
-plt.title(r'Anderson82-801')
+plt.title(r'(c) Anderson82-801')
 cf6 = plt.contourf(rx/1000, ry/1000, fht6pha.clip(vmin, vmax), **props)
 
 limits(6)
-plt.title(r'Key12-51')
+plt.title(r'(g) Key12-51')
 cf7 = plt.contourf(rx/1000, ry/1000, fht7pha.clip(vmin, vmax), **props)
 plt.xlabel('Inline offset (km)')
 plt.ylabel('Crossline offset (km)')
 plt.xticks(np.arange(6)*2)
 
 limits(7)
-plt.title(r'Key12-101')
+plt.title(r'(h) Key12-101')
 cf8 = plt.contourf(rx/1000, ry/1000, fht8pha.clip(vmin, vmax), **props)
 plt.xlabel('Inline offset (km)')
 
 limits(8)
-plt.title(r'Key12-201')
+plt.title(r'(i) Key12-201')
 cf9 = plt.contourf(rx/1000, ry/1000, fht9pha.clip(vmin, vmax), **props)
 plt.xlabel('Inline offset (km)')
 
@@ -253,4 +266,6 @@ cb = plt.colorbar(cf8, cax=cax, ticks=10**(-(np.arange(11.)[::-1])+2), **kw)
 cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
-plt.savefig('../figures/filtercomp-phase2.jpg', bbox_inches='tight')
+# plt.savefig('../figures/Figure_4b.tif', bbox_inches='tight')
+plt.savefig('../figures/Figure_4b.jpg', bbox_inches='tight')
+plt.close()

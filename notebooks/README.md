@@ -25,3 +25,7 @@ The routines are also provided as pure Python files. However, timing was
 carried out with a so-called magic-functions built into IPython (%timeit). The
 pure Python files do not have the timing bit. For the same reason there is no
 pure Python file of *runtimes.ipynb*.
+
+The final figures, as submitted to Geophysics, are from the pure Python files.
+The Notebooks and the Python files will yield slightly different images. The
+differences are only in display (figure size, format), NOT in content.

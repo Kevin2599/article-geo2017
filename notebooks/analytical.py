@@ -20,13 +20,23 @@ import matplotlib.pyplot as plt
 from empymod import dipole, analytical
 
 # Plotting style adjustments
-mpl.rcParams['figure.dpi'] = 300
-mpl.rcParams['savefig.dpi'] = 300
-mpl.rcParams['text.usetex'] = True  # Comment this if you don't have LaTeX. You
-                                    # might have to adjust some strings.
-mpl.rcParams['font.serif'] = 'Computer Modern Roman'
-mpl.rcParams['font.family'] = 'serif'
-mpl.rcParams['font.style'] = 'normal'
+mpl.rc('text', usetex=True)         # Comment this if you don't have LaTeX. You
+font = {'family': 'sans-serif',    # might have to adjust some strings.
+        'size': 8,
+        'style': 'normal',
+        'sans-serif': 'Helvetica'}
+mpl.rc('font', **font)
+mpl.rc('lines', linewidth=1)
+mpl.rc('xtick', labelsize=8)
+mpl.rc('ytick', labelsize=8)
+mpl.rc('axes', labelsize=8, titlesize=8)
+mpl.rc('legend', fontsize=8)
+mpl.rc('figure', dpi=300)
+
+# Notes on tif
+# Matplotlib uses Pillow to save as tif; compression is not yet implemented,
+# but in the works. I save it here as tif, and compress it afterwards in Gimp
+# for the versions submitted to Geophysics.
 
 # Set axis and limits
 def limits(i):
@@ -40,7 +50,7 @@ def limits(i):
 
 # Define coordinates
 x = (np.arange(1051))*10-500
-rx = np.repeat([x,],np.size(x),axis=0)
+rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
 params = {
     'src': [0, 0, 150],
@@ -69,7 +79,7 @@ resp = resp.reshape(np.shape(rx))
 
 
 # Create figure
-fig, axs = plt.subplots(figsize=(9, 3.5), facecolor = 'w', nrows=1,
+fig, axs = plt.subplots(figsize=(8.05, 2.93), facecolor='w', nrows=1,
                         ncols=2, sharey=True)
 axs = axs.ravel()
 
@@ -85,11 +95,11 @@ plt.xlabel('Inline offset (km)')
 # Draw filled contours and contour lines
 cf1 = plt.contourf(rx/1000, ry/1000, np.abs(resp), 10,
                    locator=mpl.ticker.LogLocator(), cmap='Greys')
-cf1l = plt.contour(cf1, colors='.5', linestyles='solid')
+cf1l = plt.contour(cf1, colors='.5')
 
 # Plot colorbar
 cb1 = plt.colorbar(cf1)
-cb1.set_label('Amplitude $(\\rm{V}/\\rm{m})$')
+cb1.set_label('Amplitude (V/m)')
 
 
 # 2. PHASE; Set axis and limits
@@ -105,15 +115,16 @@ plt.xlabel('Inline offset (km)')
 # Draw filled contours and contour lines
 cf2 = plt.contourf(rx/1000, ry/1000, np.angle(resp), 50,
                    vmin=vmin2, vmax=vmax2, cmap='Greys')
-cf2l = plt.contour(cf2, levels=np.linspace(-np.pi, np.pi, 12), colors='.5',
-                   linestyles='solid')
+cf2l = plt.contour(cf2, levels=np.linspace(-np.pi, np.pi, 12), colors='.5')
 
 # Plot colourbar
 cb2 = plt.colorbar(cf2, ticks=np.arange(7)-3)
-cb2.set_label('Phase $(\\rm{rad})$')
+cb2.set_label('Phase (rad)')
 
 # Save figure and show it
-plt.savefig('../figures/analytical.jpg', bbox_inches='tight')
+# plt.savefig('../figures/Figure_1.tif', bbox_inches='tight')
+plt.savefig('../figures/Figure_1.jpg', bbox_inches='tight')
+plt.close()
 
 # Calculate `empymod` for different Hankel transforms
 
@@ -193,7 +204,7 @@ else:  # If not pre-calculated, run empymod
 
 # Plot amplitude error of `empymod`
 
-fig, axs = plt.subplots(figsize=(10, 7.8), facecolor = 'w', nrows=2, ncols=3,
+fig, axs = plt.subplots(figsize=(8.1, 6.2), facecolor='w', nrows=2, ncols=3,
                         sharex=True, sharey=True)
 axs = axs.ravel()
 
@@ -249,12 +260,14 @@ cb = plt.colorbar(cf6, cax=cax, ticks=10**(-(np.arange(11.)[::-1])+2), **kw)
 cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
-plt.savefig('../figures/onederror-amplitude.jpg', bbox_inches='tight')
+# plt.savefig('../figures/Figure_2.tif', bbox_inches='tight')
+plt.savefig('../figures/Figure_2.jpg', bbox_inches='tight')
+plt.close()
 
 
 # Plot phase error of `empymod`
 
-fig, axs = plt.subplots(figsize=(10, 7.8), facecolor = 'w', nrows=2, ncols=3,
+fig, axs = plt.subplots(figsize=(8.1, 6.2), facecolor='w', nrows=2, ncols=3,
                         sharex=True, sharey=True)
 axs = axs.ravel()
 
@@ -309,7 +322,9 @@ cb = plt.colorbar(cf6, cax=cax, ticks=10**(-(np.arange(11.)[::-1])+2), **kw)
 cb.set_label(r'Relative Error $(\%)$')
 
 # Save and show
-plt.savefig('../figures/onederror-phase.jpg', bbox_inches='tight')
+# plt.savefig('../figures/Figure_3.tif', bbox_inches='tight')
+plt.savefig('../figures/Figure_3.jpg', bbox_inches='tight')
+plt.close()
 
 
 # Calculate `EMmod` results
@@ -337,7 +352,7 @@ with open(ffile, 'rb') as outfile:
     itr = np.in1d(tct, tcr)
 
     # Put into data and reshape
-    data = temp[3][itr] +1j*temp[4][itr]
+    data = temp[3][itr] + 1j*temp[4][itr]
     data = data.reshape(np.shape(rx))
 
     # Calculate error for amplitude and phase
@@ -347,7 +362,7 @@ with open(ffile, 'rb') as outfile:
 
 # Plot amplitude and phase error of `EMmod`
 
-fig, axs = plt.subplots(figsize=(6.8, 8.2), facecolor = 'w', nrows=2, ncols=2,
+fig, axs = plt.subplots(figsize=(4.75, 5.6), facecolor='w', nrows=2, ncols=2,
                         sharex=True, sharey=True)
 axs = axs.ravel()
 
@@ -401,4 +416,6 @@ cb2 = plt.colorbar(cf4, cax=cax, ticks=10**(-(np.arange(11.)[::-2])+2), **kw)
 cb2.set_label(r'Relative Error (b) \& (d) $(\%)$')
 
 # Save figure and show it
-plt.savefig('../figures/emmod-HS.jpg', bbox_inches='tight')
+# plt.savefig('../figures/Figure_5.tif', bbox_inches='tight')
+plt.savefig('../figures/Figure_5.jpg', bbox_inches='tight')
+plt.close()

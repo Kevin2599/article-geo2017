@@ -317,11 +317,11 @@ horizontal resistivity $\rho_\mathrm{h} = 1/3\,\Omega$\,m, anisotropy $\lambda
 = \sqrt{10}$, and for frequency $f = 0.5\,$Hz. The source is located
 horizontally at the origin ($x_\mathrm{s} = y_\mathrm{s} = 0\,$m) at a depth of
 150\,m, and the depth of the receivers is 200\,m. The field is calculated on a
-regular grid with a spacing of 10\,m. Figure~\ref{fig:analytical} shows the
+regular grid with a spacing of 10\,m. Figure~\ref{fig:Figure_1} shows the
 analytical amplitude and phase results for the first quadrant (the other
 quadrants are simply symmetric copies of it).
 %
-\plot*[btp]{analytical}{width=\textwidth}{Analytical solution for a half-space
+\plot*[btp]{Figure_1}{width=\textwidth}{Analytical solution for a half-space
   with $\rho_\mathrm{h} = 1/3\,\Omega$\,m, $\lambda = \sqrt{10}$, $f =
   0.5\,$Hz, $z_\mathrm{s} = 150\,$m, and $z_\mathrm{r} = 200\,$m, calculated on
   a regular grid with a spacing of 10 meters; (a) amplitude and (b) phase.}
@@ -332,7 +332,7 @@ is based on the insight that this is the most interesting of all electric
 source to electric receiver fields, as can be seen in \cite{GEO.15.Hunziker},
 Figures~1 and~2).
 
-The error of the amplitude is shown in Figure~\ref{fig:onederror-amplitude} for
+The error of the amplitude is shown in Figure~\ref{fig:Figure_2} for
 different settings regarding the Hankel transform: (a) for a 51\,pt QWE with
 relative tolerance $\varepsilon_r$ and absolute tolerance $\varepsilon_a$ of
 $10^{-12}$ and $10^{-30}$, respectively; (b) for a 21\,pt QWE with
@@ -342,7 +342,7 @@ standard FHT method with the filter Key09-201; (e) using the splined FHT of the
 same filter with 40 points per decade; and (f) using the lagged FHT of the same
 filter.
 %
-\plot*[btp]{onederror-amplitude}{width=.92\textwidth}{Error levels for
+\plot*[btp]{Figure_2}{width=.92\textwidth}{Error levels for
   different Hankel transform settings, compared with the analytical solution in
   Figure~1. The high precision QWE (a) and the standard FHT (d) have very low
   error levels, generally in the order of $10^{-6}$\,\% or less. The lagged FHT
@@ -360,16 +360,16 @@ uses the diffusive approximation, and the numerical code, which calculates the
 complete field. If the QWE is calculated for lower tolerance levels, as shown
 in (b) and (c), or the FHT is used with interpolation as in (e) and (f),
 artefacts seem to arise from the Hankel transform and the interpolation. The
-error of the phase is shown in Figure~\ref{fig:onederror-phase}, with the same
+error of the phase is shown in Figure~\ref{fig:Figure_3}, with the same
 conclusion.
 %
-\plot*[btp]{onederror-phase}{width=.92\textwidth}{Same as
-  Figure~\ref{fig:onederror-amplitude}, but for the phase. Interesting is to
+\plot*[btp]{Figure_3}{width=.92\textwidth}{Same as
+  Figure~\ref{fig:Figure_2}, but for the phase. Interesting is to
   see that interpolation in the wavenumber domain (e) yields slightly different
   patterns than interpolation in space domain (f).}
 %
 
-Figure~\ref{fig:filtercomp-amplitude} shows a comparison of the error for all
+Figure~\ref{fig:Figure_4} shows a comparison of the error for all
 nine included FHT-filters, for the amplitude (phase is not shown, but is very
 similar). They are all very accurate, and by choosing an optimal filter one has
 to decide between accuracy and speed, as shorter filters are faster. However,
@@ -377,7 +377,7 @@ we have to keep in mind that the accuracy of the filters depends on the model,
 the offsets, and the frequencies. If we do not have an analytical solution, as
 in this case, we cannot check the accuracy.
 %
-\plot*[btp]{filtercomp-amplitude}{width=.92\textwidth}{Comparison of the nine
+\plot*[btp]{Figure_4}{width=.92\textwidth}{Comparison of the nine
   included FHT filters. All of them have an error mostly far below 1\,\%. For
   other models and other frequencies the result will be different. (Phase is
   not shown but looks very similar.)}
@@ -409,22 +409,22 @@ comes to actual measurements one deals with dozens to at most hundreds of
 offsets, and usually on an irregular grid. Dipole1D and empymod work more along
 the practical approach.
 
-Figure~\ref{fig:emmod-HS} shows the error of amplitude and phase for EMmod. On
+Figure~\ref{fig:Figure_5} shows the error of amplitude and phase for EMmod. On
 the left side with a colorscale from $10^0$ to $10^2$\,\% as used in
 \cite{GEO.15.Hunziker}, on the right side with a colorscale from $10^{-8}$ to
-$10^0$\,\% as used in Figures~\ref{fig:onederror-amplitude}
-and~\ref{fig:onederror-phase}. Note that the error calculation in
+$10^0$\,\% as used in Figures~\ref{fig:Figure_2}
+and~\ref{fig:Figure_3}. Note that the error calculation in
 \cite{GEO.15.Hunziker} was done slightly different. Here I show the relative
 error between the analytical result and the result from EMmod, where
 \cite{GEO.15.Hunziker} shows the relative error between $\log_{10}$(analytical
 result) and $\log_{10}$(result from EMmod).
 %
-\plot*[btp]{emmod-HS}{width=.7\textwidth}{Error of EMmod for the half-space
+\sideplot[btp]{Figure_5}{width=.7\textwidth}{Error of EMmod for the half-space
   model in Figure~1. On the left side with the same colorscale as in
   \cite{GEO.15.Hunziker}, on the right side with the colorscale as in Figures~2
   and~3.}
 %
-Figure~\ref{fig:emmod-HS} shows a few interesting points. The responses from
+Figure~\ref{fig:Figure_5} shows a few interesting points. The responses from
 EMmod in this example have significantly less precision than the results from
 empymod. This does not mean in any way that EMmod is less precise, as EMmod can
 be adjusted to yield much preciser results. However, this would significantly
@@ -434,13 +434,13 @@ interpolation in the space-frequency domain, by default, a linear
 interpolation. No interpolation is used in empymod with QWE or FHT as Hankel
 transform, unless one specifies it to speed up the calculations (splined QWE or
 splined and lagged FHT options), which will therefore yield preciser results.
-This can be seen very nicely in the results. Figures~\ref{fig:emmod-HS} (b) and
+This can be seen very nicely in the results. Figures~\ref{fig:Figure_5} (b) and
 (d) show white circles where the result is very precise. These are the offsets
 close to those where the fields were actually calculated. The black bands
 in-between are the areas where the result was interpolated. It also shows that
 the spacing between calculated offsets increases with increasing offsets.  The
-error patterns from empymod in Figures~\ref{fig:onederror-amplitude} and
-\ref{fig:onederror-phase} show in (a) and (d) a different pattern, displaying
+error patterns from empymod in Figures~\ref{fig:Figure_2} and
+\ref{fig:Figure_3} show in (a) and (d) a different pattern, displaying
 differences between the analytical, diffusive solution and the numerical, full
 wavefield solution. It is only for the splined and lagged versions that one
 sees the same, circular patterns appearing, which are due to interpolation.
@@ -487,22 +487,22 @@ center frequency of 250\,MHz. To do so, they calculate 2048 frequencies in the
 range of 1\,MHz to 2048\,MHz for the Fast Fourier transform from frequency to
 time domain. Here I only calculated the FFT with 850 frequencies from 1\,MHz to
 850\,MHz and then zero-padded up to 2048\,MHz, for EMmod and empymod; tests
-have shown that this is sufficient. Figure~\ref{fig:gpr} shows the model with
-the survey setup and the four results for EMmod, empymod with QUAD for relative
-and absolute tolerance of $10^{-12}$ and $10^{-20}$, respectively, empymod with
-a 51\,pt QWE and relative and absolute tolerance of $10^{-8}$ and $10^{-15}$,
-respectively, and empymod with FHT with the filter Key09-401, together with the
-analytical solution for the arrival of the direct wave (red), the wave
-refracted at the surface (yellow), and the wave reflected at the subsurface
-interface (green).
+have shown that this is sufficient. Figure~\ref{fig:Figure_6} shows the model
+with the survey setup and the four results for EMmod, empymod with QUAD for
+relative and absolute tolerance of $10^{-12}$ and $10^{-20}$, respectively,
+empymod with a 51\,pt QWE and relative and absolute tolerance of $10^{-8}$ and
+$10^{-15}$, respectively, and empymod with FHT with the filter Key09-401,
+together with the analytical solution for the arrival of the direct wave (red),
+the wave refracted at the surface (yellow), and the wave reflected at the
+subsurface interface (green).
 
 EMmod and the QUAD and QWE transforms of empymod yield pretty much the same
 result. It is only at later times that some noise can be seen, different in
 each method. FHT shows the first arrivals well, however, afterwards the result
 becomes extremely noisy.
 %
-\plot*[btp]{gpr}{width=1\textwidth}{GPR example for (b) EMmod, (c) empymod with
-  QUAD for relative and absolute tolerance of $10^{-12}$ and $10^{-20}$,
+\plot*[btp]{Figure_6}{width=1\textwidth}{GPR example for (b) EMmod, (c) empymod
+  with QUAD for relative and absolute tolerance of $10^{-12}$ and $10^{-20}$,
   respectively, (d) empymod with 51\,pt QWE for relative and absolute tolerance
   of $10^{-8}$ and $10^{-15}$, respectively, and (e) empymod with FHT
   (Key09-401); run times are given in the subplot titles.}
@@ -626,8 +626,8 @@ can be best seen in the long 801\,pt filter.
 These results regarding speed of calculation do not change the fact that the
 advantage of the QWE method is to have an estimate of the error. However, the
 filters designed for CSEM problems seem to be very good at solving them, as can
-be seen in the low error levels in Figures~\ref{fig:onederror-amplitude}
-and~\ref{fig:onederror-phase} or in \cite{GEO.12.Key}.
+be seen in the low error levels in Figures~\ref{fig:Figure_2}
+and~\ref{fig:Figure_3} or in \cite{GEO.12.Key}.
 
 
 Table~\ref{tbl:runtimes2} lists the run times for the same model as before, but
@@ -696,7 +696,7 @@ where $\rho$ is the half-space resistivity, $\mu_0$ is the permeability of free
 space, and $t$ is time (neglecting the impulse of the airwave at $t=0\,$s), as
 given by \citet[][ eq. 5.38]{PhD.97.Wilson}.
 
-Figure~\ref{fig:impulse} shows the result of this comparison, where FFTLog with
+Figure~\ref{fig:Figure_7} shows the result of this comparison, where FFTLog with
 6\,ms is the fastest method and FFT with 562\,ms the slowest one. Interesting
 is to see how many frequencies are used internally, as listed in
 Table~\ref{tbl:time}.
@@ -734,7 +734,7 @@ depth and not at the air-interface, for instance in marine CSEM where source
 and receiver are in the water layer, are generally much easier, in other words,
 faster and more precise.
 %
-\plot*[btp]{impulse}{width=\textwidth}{Comparison of different Fourier
+\plot*[btp]{Figure_7}{width=\textwidth}{Comparison of different Fourier
   transforms for an impulse response at the interface between air and a
   half-space of $10\,\Omega\,$m at $6\,$km offset. FFTLog is the fastest, and
   FFT the slowest in this example.}
@@ -788,9 +788,9 @@ manuscript.
 
 \append[apd:code]{Code structure and basic usage}
 
-Figure~\ref{fig:codestructure} shows the structure of empymod.%
+Figure~\ref{fig:Figure_8} shows the structure of empymod.%
 %
-\plot*[btp]{codestructure}{}{Code structure of the module empymod showing the
+\plot*[btp]{Figure_8}{}{Code structure of the module empymod showing the
   different files and the main modeling routines \texttt{bipole},
   \texttt{dipole}, and \texttt{analytical}.}%
 %

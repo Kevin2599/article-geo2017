@@ -19,7 +19,7 @@ to reproduce all the figures.
    [Version 1.4.1](https://github.com/empymod/empymod/releases/tag/v1.4.1).
 3. Final version submitted 04/06/2017.
    The stable release of `empymod` at the time of submission was
-   [Version 1.4.3](https://github.com/empymod/empymod/releases/tag/v1.4.3).
+   [Version 1.4.2](https://github.com/empymod/empymod/releases/tag/v1.4.3).
 
 
 ## Note

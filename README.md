@@ -1,7 +1,7 @@
 # An open-source full 3D electromagnetic modeler for 1D VTI media in Python: empymod
 
 > Werthmüller, D., 2017, An open-source full 3D electromagnetic modeler for 1D
-> VTI media in Python: empymod: Geophysics, 82; DOI:
+> VTI media in Python: empymod: Geophysics, 82, WB9-WB19; DOI:
 > [10.1190/geo2016-0626.1](http://doi.org/10.1190/geo2016-0626.1).
 
 ## Manuscript for Geophysics paper
@@ -28,5 +28,4 @@ to reproduce all the figures.
 
 ## Note
 
-The final edited version will be &copy; Society of Exploration Geophysicists
-SEG.
+The final edited version is &copy; Society of Exploration Geophysicists SEG.

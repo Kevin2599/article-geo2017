@@ -29,3 +29,28 @@ pure Python file of *runtimes.ipynb*.
 The final figures, as submitted to Geophysics, are from the pure Python files.
 The Notebooks and the Python files will yield slightly different images. The
 differences are only in display (figure size, format), NOT in content.
+
+## Errata
+
+I erroneously have in `data/GPR/gprloop_twointerface.src`
+
+    econdV=0.0,0.005,0.005 \
+    econdH=0.0,0.005,0.005 \
+
+instead of
+
+    econdV=0.0,0.05,0.005 \
+    econdH=0.0,0.05,0.005 \
+
+In order to compare the GPR results of `empymod` and `EMmod`, you have to set
+therefore in `gpr-create-data.py/.ipynb`
+
+    res = [2e14, 200, 200]
+
+and not
+
+    res = [2e14, 20, 200]
+
+or alternatevily re-calculate the `EMmod` result with a corrected `scr`-file.
+
+The difference is not significantly visible in the figure.
